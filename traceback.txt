@@ -1,0 +1,32 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/script.rpy", line 220, in script
+    show anzu smile at rigt, pose
+  File "game/script.rpy", line 220, in <module>
+    show anzu smile at rigt, pose
+NameError: name 'rigt' is not defined
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "game/script.rpy", line 220, in script
+    show anzu smile at rigt, pose
+  File "/home/paranoia/Descargas/renpy-8.3.7-sdk/renpy/ast.py", line 1124, in execute
+    show_imspec(self.imspec, atl=getattr(self, "atl", None))
+  File "/home/paranoia/Descargas/renpy-8.3.7-sdk/renpy/ast.py", line 1083, in show_imspec
+    at_list = [ renpy.python.py_eval(i) for i in at_list ]
+  File "/home/paranoia/Descargas/renpy-8.3.7-sdk/renpy/ast.py", line 1083, in <listcomp>
+    at_list = [ renpy.python.py_eval(i) for i in at_list ]
+  File "/home/paranoia/Descargas/renpy-8.3.7-sdk/renpy/python.py", line 1218, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "/home/paranoia/Descargas/renpy-8.3.7-sdk/renpy/python.py", line 1211, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "game/script.rpy", line 220, in <module>
+    show anzu smile at rigt, pose
+NameError: name 'rigt' is not defined
+
+Linux-6.14.3-arch1-1-x86_64-with-glibc2.41 x86_64
+Ren'Py 8.3.7.25031702
+Games 1.0
+Sun Apr 27 14:05:49 2025
