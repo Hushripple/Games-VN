@@ -12,6 +12,8 @@ init offset = -1
 style default:
     properties gui.text_properties()
     language gui.language
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
+
 
 style input:
     properties gui.text_properties("input", accent=True)
@@ -250,9 +252,9 @@ screen quick_menu():
 
             textbutton _("Atrás") action Rollback()
             textbutton _("Historial") action ShowMenu('history')
-            textbutton _("Saltar") action Skip() alternate Skip(fast=True, confirm=True)
+            #textbutton _("Saltar") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
-            #textbutton _("Guardar") action ShowMenu('save')
+            textbutton _("Guardar") action ShowMenu('save')
             #textbutton _("Guardar R.") action QuickSave()
             #textbutton _("Cargar R.") action QuickLoad()
             textbutton _("Prefs.") action ShowMenu('preferences')
@@ -289,50 +291,25 @@ screen navigation():
     vbox:
         style_prefix "navigation"
 
-        if main_menu:
-            xalign 0.2
-            yalign 0.6
-        else:
-            xoffset 60
-            yalign 0.5
-
+        xoffset 60
+        yalign 0.5
         spacing gui.navigation_spacing
 
-        if main_menu:
-
-            textbutton _("Comenzar") action Start()
-
-        else:
-
-            textbutton _("Historial") action ShowMenu("history")
-
-            textbutton _("Guardar") action ShowMenu("save")
-
-        #textbutton _("Cargar") action ShowMenu("load")
-
-        #textbutton _("Opciones") action ShowMenu("preferences")
+        textbutton _("Historial") action ShowMenu("history")
+        textbutton _("Guardar") action ShowMenu("save")
+        textbutton _("Cargar") action ShowMenu("load")
+        textbutton _("Opciones") action ShowMenu("preferences")
 
         if _in_replay:
-
-            textbutton _("Finaliza repetición") action EndReplay(confirm=True)
+            textbutton _("Finalizar repetición") action EndReplay(confirm=True)
 
         elif not main_menu:
-
             textbutton _("Menú principal") action MainMenu()
 
-        #textbutton _("Acerca de") action ShowMenu("about")
-
-        #if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-            ## La ayuda no es necesaria ni relevante en dispositivos móviles.
-            textbutton _("Ayuda") action ShowMenu("help")
+        textbutton _("Ayuda") action ShowMenu("help")
 
         if renpy.variant("pc"):
-
-            ## El botón de salida está prohibido en iOS y no es necesario en
-            ## Android y Web.
             textbutton _("Salir") action Quit(confirm=not main_menu)
-
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
@@ -343,9 +320,10 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
-    #font "fonts/BryndanWriteBook-nGPM.ttf"
-    font "DejaVuSans.ttf"
+    #font "BryndanWriteBook-nGPM.ttf"
+    #outlines [(absolute(1), '#000000')]
     xalign 0.5
+
 
 
 ## Pantalla del menú principal #################################################
@@ -356,30 +334,40 @@ style navigation_button_text:
 
 screen main_menu():
 
-    ## Esto asegura que cualquier otra pantalla de menu es remplazada.
+    ## Asegura que cualquier otra pantalla de menú sea reemplazada.
     tag menu
 
     add gui.main_menu_background
 
-    ## Este marco vacío oscurece el menu principal.
+    ## Marco vacío para oscurecer el menú principal.
     frame:
         style "main_menu_frame"
 
-    ## La sentencia 'use' incluye otra pantalla dentro de esta. El contenido
-    ## real del menú principal está en la pantalla de navegación.
-    use navigation
+    ## Eliminamos 'use navigation' porque crearemos nuestro propio menú.
+    # use navigation  <-- ❌ Comentar o eliminar esta línea
 
-    if gui.show_name:
+    ## Menú principal personalizado
+    vbox:
+        style "main_menu_vbox"
 
-        vbox:
-            style "main_menu_vbox"
-
+        ## Nombre y versión del juego
+        if gui.show_name:
             text "[config.name!t]":
                 style "main_menu_title"
 
             text "[config.version]":
                 style "main_menu_version"
 
+        ## Botones del menú principal
+        vbox:
+            xpos -1355
+            ypos -320
+            spacing 20
+
+            textbutton _("Comenzar") action Start()
+            textbutton _("Cargar") action ShowMenu("load")
+            textbutton _("Opciones") action ShowMenu("preferences")
+            textbutton _("Salir") action Quit(confirm=True)
 
 style main_menu_frame is empty
 style main_menu_vbox is vbox
@@ -391,8 +379,6 @@ style main_menu_frame:
     xsize 420
     yfill True
 
-    #background "gui/overlay/main_menu.png"
-
 style main_menu_vbox:
     xalign 1.0
     xoffset -30
@@ -401,13 +387,15 @@ style main_menu_vbox:
     yoffset -30
 
 style main_menu_text:
-    properties gui.text_properties("main_menu", accent=True)
+    properties gui.text_properties("main_menu")
+
 
 style main_menu_title:
     properties gui.text_properties("title")
 
 style main_menu_version:
     properties gui.text_properties("version")
+
 
 
 ## Pantalla del menú del juego #################################################
@@ -1261,7 +1249,8 @@ style skip_text:
 style skip_triangle:
     ## Es necesario usar un tipo de letra que contenga el glifo BLACK RIGHT-
     ## POINTING SMALL TRIANGLE.
-    font "DejaVuSans.ttf"
+    font "BryndanWriteBook-nGPM.ttf"
+    #outlines [(absolute(3), '#000000', absolute(0), absolute(0))]
 
 
 ## Pantalla de notificación ####################################################

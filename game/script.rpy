@@ -18,6 +18,9 @@ image aiko ex = "images/Custom/Aiko_Ex.png"
 # alumno random
 define aRandom = Character("Alumno #1")
 
+# ???
+define desconocido = Character("???")
+
 # daika
 define daika = Character("Daika")
 image daika neutral = "images/Custom/Daika.png"
@@ -41,6 +44,7 @@ image bg classroom = "classroom.png"
 image bg school = "school.png"
 image bg stairs = "stairs.png"
 image bg citt = "citt.png"
+image qr = "images/Custom/qr.png"
 
 transform jump:
     linear 0.5 yoffset -70
@@ -59,7 +63,7 @@ default leyo_musica = False
 
 label start:
 
-    play music "audio/cicadas.mp3" fadein 1.5
+    play music "audio/cicadas.mp3" volume 0.1
 
     scene bg school with fade
 
@@ -79,14 +83,15 @@ label start:
     a "{cps=30}{i}(Me deprime un poco que no haya nada relacionado con el desarrollo de videojuegos en el curso.){/i}{/cps}"
     a "{cps=30}{i}(Desde pequeña, he soñado con crear mis propios juegos... y ahora siento que ese sueño está un poco lejos.){/i}{/cps}"
 
-    play sound "audio/bell.mp3" volume 0.2
+    play sound "audio/bell.mp3" volume 0.1
 
     show anzu decided at center, pose
     a "{cps=30}{i}(Bueno, mejor me enfoco en el presente. La clase está a punto de comenzar.){/i}{/cps}"
     a "{cps=30}{i}(¡Estoy segura de que aprenderé algo nuevo e increíble hoy!){/i}{/cps}"
 
+    stop sound 
     scene bg classroom with fade
-    play music "audio/class.mp3" volume 0.2
+    play music "audio/class.mp3" volume 0.1
 
     "{cps=30}{i}8:35 A.M. La campana ya ha sonado, y los estudiantes toman asiento mientras la profesora se prepara para comenzar.{/i}{/cps}"
 
@@ -167,13 +172,13 @@ label start:
     a "{cps=30}{i}(Muy bien, es ahora o nunca.){/i}{/cps}"
 
     hide anzu neutral with dissolve
-    play sound "audio/knock.mp3"
+    play sound "audio/knock.mp3" volume 0.1
     "{cps=30}{i}*Toc, toc, toc*{/i}{/cps}"
     "{cps=30}{i}...{/i}{/cps}"
     "{cps=30}{i}...{/i}{/cps}"
 
     show daika neutral at left, pose
-    daika "{cps=30}Buenas, ¿en qué puedo ayudarte?{/cps}"
+    desconocido "{cps=30}Buenas, ¿en qué puedo ayudarte?{/cps}"
 
     show anzu neutral at right, pose
     a "{cps=30}{i}(¡Esta debe ser la capitana del track!){/i}{/cps}"
@@ -181,7 +186,7 @@ label start:
     a "{cps=30}Hola, soy Anzu. Estaba interesada en saber más sobre el track de desarrollo de videojuegos.{/cps}"
 
     show daika smile at left, pose
-    daika "{cps=30}¡Qué bueno escuchar eso! Pasa, te mostraré un poco cómo trabajamos.{/cps}"
+    daika "{cps=30}¡Qué bueno escuchar eso! Soy Daika, pasa, te mostraré un poco cómo trabajamos.{/cps}"
 
     hide daika smile with dissolve
     hide anzu neutral with dissolve
@@ -269,7 +274,7 @@ label start:
             jump opcionMenu
 
         "Música y Sonido":
-            daika "{cps=30}¿Sabías que un buen OST puede hacer que un juego se quede en el corazón de los jugadores?{/cps}"
+            daika "{cps=30}¿Sabías que una buena banda sonora puede hacer que un juego se quede en el corazón de los jugadores?{/cps}"
             daika "{cps=30}Desde los bips de los primeros arcades hasta las bandas sonoras orquestales modernas, el audio ha evolucionado muchísimo.{/cps}"
             daika "{cps=30}En el track, podrás crear música, SFXs y dar vida sonora a los proyectos.{/cps}"
             pass
@@ -288,18 +293,47 @@ label start:
         show daika smile at left, pose
         daika "{cps=30}Lo bueno de este track es que podemos trabajar como equipo, compartir recursos y buscar material, todo a base de nuestro propio esfuerzo e interés.{/cps}"
         daika "{cps=30}Así que, ¿te gustaría unirte a nosotros?{/cps}"
-        show anzu smile at right, pose
-        a "{cps=30}Claro, me encantaría formar parte.{/cps}"
-        daika "{cps=30}Perfecto. Dame tu número y te agregaré al grupo.{/cps}"
+        menu:
+            "Sí":
+                show anzu smile at right, pose
+                a "{cps=30}Claro, me encantaría formar parte.{/cps}"
+                daika "{cps=30}Perfecto. Scannea este código QR para más información.{/cps}"
+                window hide
+                show qr at truecenter
+                pause
 
-        "{cps=30}{i}Anzu proporciona su número y es añadida al grupo.{/i}{/cps}"
+                window show
+                "{cps=30}{i}Anzu scannea el código.{/i}{/cps}"
+                hide qr
 
-        show daika smile at left, pose
-        daika "{cps=30}Listo, oficialmente eres parte de Games.{/cps}"
-        daika "{cps=30}Bienvenida al equipo.{/cps}"
-        hide daika smile 
-        hide anzu smile
-        jump pantalla_creditos
+                show daika smile at left, pose
+                daika "{cps=30}Listo, oficialmente eres parte de Games.{/cps}"
+                daika "{cps=30}Bienvenida al equipo.{/cps}"
+                hide daika smile 
+                hide anzu smile
+                jump pantalla_creditos
+            "No":
+                show anzu sad at right, pose
+                show daika neutral at left, pose
+                daika "{cps=30}Aw, está bien, lamento si no es lo que buscabas.{/cps}"
+                a "{cps=30}Lo siento, creo que quiero otra cosa...{/cps}"
+                daika "{cps=30}No te preocupes, acá en CITT tienes muchas opciones y oportunidades.{/cps}"
+                daika "{cps=30}Estoy segura que podrás encontrar algo que te guste.{/cps}"
+                daika "{cps=30}Si aún estás interesada, puedes scannear este código.{/cps}"
+                window hide 
+                show qr at truecenter
+                pause
+
+                window show
+                "{cps=30}{i}Anzu scannea el código.{/i}{/cps}"
+                hide qr
+                show anzu smile at right, pose
+                daika "{cps=30}Muchas gracias.{/cps}"
+                show daika smile at left, pose
+                daika "{cps=30}¡Muchas gracias a ti por pasarte!{/cps}"
+                hide daika smile 
+                hide anzu smile
+                jump pantalla_creditos
 
     label pantalla_creditos:
         show bg school with dissolve

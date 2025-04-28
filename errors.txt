@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 321: expected statement.
-    for titulo, nombre in credits:
-              ^
+File "game/script.rpy", line 301: end of line expected.
+    show qr with dissolve at center
+                          ^
 
 Ren'Py Version: Ren'Py 8.3.7.25031702
-Sun Apr 27 15:57:48 2025
+Mon Apr 28 01:27:01 2025
